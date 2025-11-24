@@ -18,7 +18,15 @@ const fastify = Fastify({
     disableRequestLogging: true
 });
 
-fastify.addHook("onResponse", (request, reply) => {
+fastify.addHook("onRequest", async (request, reply) => {
+    const path = request.url;
+
+    if (!path.endsWith("/") && !path.startsWith("/docs/")) {
+        reply.redirect(path + "/", 301);
+    }
+});
+
+fastify.addHook("onResponse", async (request, reply) => {
     fastify.log.info(`${request.method} ${request.url} - ${Math.round(reply.elapsedTime)}ms`);
 });
 
@@ -43,7 +51,7 @@ await fastify.register(fastifySwagger, {
 await fastify.register(
     fastifySwaggerUi,
     {
-        routePrefix: "/docs",
+        routePrefix: "/docs/",
         uiConfig: {
             docExpansion: "list",
             deepLinking: false

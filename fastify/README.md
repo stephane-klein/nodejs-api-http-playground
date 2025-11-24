@@ -15,6 +15,8 @@ $ curl http://localhost:3000
 {"hello":"world"}
 ```
 
+Open <http://localhost:3000/docs> Swagger documentation in your browser.
+
 ## Build application server for production
 
 ```console

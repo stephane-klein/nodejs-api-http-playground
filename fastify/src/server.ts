@@ -1,4 +1,6 @@
 import Fastify from "fastify";
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerUi from "@fastify/swagger-ui";
 
 const fastify = Fastify({
     logger: {
@@ -19,6 +21,36 @@ const fastify = Fastify({
 fastify.addHook("onResponse", (request, reply) => {
     fastify.log.info(`${request.method} ${request.url} - ${Math.round(reply.elapsedTime)}ms`);
 });
+
+await fastify.register(fastifySwagger, {
+    openapi: {
+        openapi: "3.0.0",
+        info: {
+            title: "API Fastify playground",
+            version: "1.0.0"
+        },
+        servers: [
+            {
+                url: "http://localhost:3000"
+            }
+        ],
+        tags: [
+            { name: "users" }
+        ]
+    }
+});
+
+await fastify.register(
+    fastifySwaggerUi,
+    {
+        routePrefix: "/docs",
+        uiConfig: {
+            docExpansion: "list",
+            deepLinking: false
+        },
+        staticCSP: true
+    }
+);
 
 fastify.get("/users/", async (request, _reply) => {
     request.log.info("GET /users/");

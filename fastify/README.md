@@ -11,17 +11,40 @@ $ pnpm start
 In another terminal, execute:
 
 ```console
-$ curl -L -s http://localhost:3000/users/ | jq
+$ xh -b http://localhost:3000/users/
 [
-  {
+    {
+        "id": 1,
+        "firstname": "John",
+        "lastname": "Doe"
+    },
+    {
+        "id": 2,
+        "firstname": "Alice",
+        "lastname": "Doe"
+    }
+]
+
+$ xh -b http://localhost:3000/users/12/
+{
+    "id": 1,
     "firstname": "John",
     "lastname": "Doe"
-  },
-  {
-    "firstname": "Alice",
+}
+```
+
+```console
+$ xh -b POST http://localhost:3000/users/ firstname=John lastname=Doe
+{
+    "firstname": "John",
     "lastname": "Doe"
-  }
-]
+}
+
+$ xh -b PUT http://localhost:3000/users/12/ firstname=John lastname=Doe
+{
+    "firstname": "John",
+    "lastname": "Doe"
+}
 ```
 
 Open <http://localhost:3000/docs> Swagger documentation in your browser.

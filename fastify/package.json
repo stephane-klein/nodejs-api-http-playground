@@ -1,7 +1,11 @@
 {
     "type": "module",
     "scripts": {
-        "start": "node src/server.js",
+        "dev": "tsx watch src/server.ts",
+        "build": "tsc",
+        "start": "pnpm dev",
+        "serve": "node dist/server.js",
+        "type-check": "tsc --noEmit",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
         "format": "prettier --write .",
@@ -11,9 +15,15 @@
         "fastify": "5.6.2"
     },
     "devDependencies": {
+        "@types/node": "24.10.1",
+        "@typescript-eslint/eslint-plugin": "8.48.0",
+        "@typescript-eslint/parser": "8.48.0",
         "eslint": "9.39.1",
         "eslint-config-prettier": "10.1.8",
         "fastify-cli": "7.4.1",
-        "prettier": "3.6.2"
+        "fastify-tsconfig": "3.0.0",
+        "prettier": "3.6.2",
+        "tsx": "4.20.6",
+        "typescript": "5.9.3"
     }
 }

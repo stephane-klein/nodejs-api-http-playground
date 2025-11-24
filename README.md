@@ -4,8 +4,8 @@ My goal in this playground is to test different frameworks for implementing HTTP
 
 Constraints:
 
-- Follow [KISS](https://en.wikipedia.org/wiki/KISS_principle) and [YAGNI](https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it) principles.
-  I want to keep code simple and pragmatic, adding complexity only when it's actually needed, not when it might be needed.
+- Follow [KISS](https://en.wikipedia.org/wiki/KISS_principle) and [YAGNI](https://en.wikipedia.org/wiki/You_aren%27t_gonna_need_it) principles.  
+  I want to keep code simple and pragmatic, adding complexity only when it's actually needed, not when it might be needed.  
   This means that I'm not looking to follow paradigms like [Clean Code](https://en.wikipedia.org/wiki/Robert_C._Martin#Clean_Code) or [SOLID](https://en.wikipedia.org/wiki/SOLID), for example, I don't want to use the following patterns:
     - [Inversion of Control (IoC)](https://en.wikipedia.org/wiki/Inversion_of_control)
     - [Dependency Injection (DI)](https://en.wikipedia.org/wiki/Dependency_injection)

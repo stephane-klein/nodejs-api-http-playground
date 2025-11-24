@@ -1,6 +1,24 @@
 import Fastify, { type FastifyRequest, type FastifyReply } from "fastify";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
+import { type TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
+import { Type } from "@sinclair/typebox";
+
+const UserSchema = Type.Object({
+    id: Type.Integer(),
+    firstname: Type.String(),
+    lastname: Type.String()
+});
+
+const UserParamsSchema = Type.Object({
+    userId: Type.String()
+});
+
+const UserBodySchema = Type.Object({
+    id: Type.Optional(Type.Integer()),
+    firstname: Type.String(),
+    lastname: Type.String()
+});
 
 const fastify = Fastify({
     logger: {
@@ -16,23 +34,7 @@ const fastify = Fastify({
         }
     },
     disableRequestLogging: true
-});
-
-interface User {
-    id: number;
-    firstname: string;
-    lastname: string;
-}
-
-interface UserParams {
-    userId: string;
-}
-
-interface UserBody {
-    id?: number;
-    firstname: string;
-    lastname: string;
-}
+}).withTypeProvider<TypeBoxTypeProvider>();
 
 fastify.addHook("onRequest", async (request: FastifyRequest, reply: FastifyReply) => {
     const path = request.url;
@@ -76,28 +78,17 @@ await fastify.register(
     }
 );
 
-fastify.get<{
-    Reply: User[]
-}>(
+// GET /users/ - Liste tous les utilisateurs
+fastify.get(
     "/users/", 
     {
         schema: {
             response: {
-                200: {
-                    type: "array",
-                    items: {
-                        type: "object",
-                        properties: {
-                            id: { type: "integer" },
-                            firstname: { type: "string" },
-                            lastname: { type: "string" }
-                        }
-                    }
-                }
+                200: Type.Array(UserSchema)
             }
         }
     },
-    async (request: FastifyRequest, _reply: FastifyReply): Promise<User[]> => {
+    async (request, _reply) => {
         request.log.info("GET /users/");
         return [
             {
@@ -114,26 +105,18 @@ fastify.get<{
     }
 );
 
-fastify.get<{
-    Params: UserParams;
-    Reply: User;
-}>(
+// GET /users/:userId/ - Récupère un utilisateur par ID
+fastify.get(
     "/users/:userId/",
     {
         schema: {
+            params: UserParamsSchema,
             response: {
-                200: {
-                    type: "object",
-                    properties: {
-                        id: { type: "integer" },
-                        firstname: { type: "string" },
-                        lastname: { type: "string" }
-                    }
-                }
+                200: UserSchema
             }
         }
     },
-    async (request: FastifyRequest<{ Params: UserParams }>, _reply: FastifyReply): Promise<User> => {
+    async (request, _reply) => {
         request.log.info({ params: request.params }, "GET /users/:userId");
         return { 
             id: 1,
@@ -143,71 +126,38 @@ fastify.get<{
     }
 );
 
-fastify.post<{
-    Body: UserBody;
-    Reply: User;
-}>(
+fastify.post(
     "/users/",
     {
         schema: {
-            body: {
-                type: "object",
-                properties: {
-                    id: { type: "integer" },
-                    firstname: { type: "string" },
-                    lastname: { type: "string" }
-                }
-            },
+            body: UserBodySchema,
             response: {
-                200: {
-                    type: "object",
-                    properties: {
-                        id: { type: "integer" },
-                        firstname: { type: "string" },
-                        lastname: { type: "string" }
-                    }
-                }
+                200: UserSchema
             }
         }
     },
-    async (request: FastifyRequest<{ Body: UserBody }>, _reply: FastifyReply): Promise<User> => {
+    async (request, _reply) => {
         request.log.info({ body: request.body }, "POST /users/");
         return {
-            id: 2,
-            ...request.body
-        } as User;
+            id: 1,
+            firstname: request.body.firstname,
+            lastname: request.body.lastname
+        };
     }
 );
 
-fastify.put<{
-    Params: UserParams;
-    Body: UserBody;
-    Reply: User;
-}>(
+fastify.put(
     "/users/:userId/",
     {
         schema: {
-            body: {
-                type: "object",
-                properties: {
-                    id: { type: "integer" },
-                    firstname: { type: "string" },
-                    lastname: { type: "string" }
-                }
-            },
+            params: UserParamsSchema,
+            body: UserBodySchema,
             response: {
-                200: {
-                    type: "object",
-                    properties: {
-                        id: { type: "integer" },
-                        firstname: { type: "string" },
-                        lastname: { type: "string" }
-                    }
-                }
+                200: UserSchema
             }
         }
     },
-    async (request: FastifyRequest<{ Params: UserParams; Body: UserBody }>, _reply: FastifyReply): Promise<User> => {
+    async (request, _reply) => {
         request.log.info(
             {
                 params: request.params,
@@ -216,9 +166,10 @@ fastify.put<{
             "PUT /users/"
         );
         return {
-            id: 2,
-            ...request.body
-        } as User;
+            id: 1,
+            firstname: request.body.firstname,
+            lastname: request.body.lastname
+        };
     }
 );
 

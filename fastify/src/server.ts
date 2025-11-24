@@ -20,7 +20,23 @@ fastify.addHook("onResponse", (request, reply) => {
     fastify.log.info(`${request.method} ${request.url} - ${Math.round(reply.elapsedTime)}ms`);
 });
 
-fastify.get("/", (_request, _reply) => {
+fastify.get("/users/", async (request, _reply) => {
+    request.log.info("GET /users/");
+    return { hello: "world" };
+});
+
+fastify.get("/users/:userId", async (request, _reply) => {
+    request.log.info({ params: request.params }, "GET /users/:userId");
+    return { hello: "world" };
+});
+
+fastify.post("/users/", async (request, _reply) => {
+    request.log.info("POST /users/");
+    return { hello: "world" };
+});
+
+fastify.put("/users/:userId", async (request, _reply) => {
+    request.log.info("PUT /users/:userId");
     return { hello: "world" };
 });
 

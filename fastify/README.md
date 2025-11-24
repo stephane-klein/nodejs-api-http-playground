@@ -11,8 +11,17 @@ $ pnpm start
 In another terminal, execute:
 
 ```console
-$ curl http://localhost:3000
-{"hello":"world"}
+$ curl -L -s http://localhost:3000/users/ | jq
+[
+  {
+    "firstname": "John",
+    "lastname": "Doe"
+  },
+  {
+    "firstname": "Alice",
+    "lastname": "Doe"
+  }
+]
 ```
 
 Open <http://localhost:3000/docs> Swagger documentation in your browser.

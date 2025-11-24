@@ -60,15 +60,62 @@ await fastify.register(
     }
 );
 
-fastify.get("/users/", async (request, _reply) => {
-    request.log.info("GET /users/");
-    return { hello: "world" };
-});
+fastify.get(
+    "/users/", 
+    {
+        schema: {
+            response: {
+                200: {
+                    type: "array",
+                    items: {
+                        type: "object",
+                        properties: {
+                            firstname: { type: "string" },
+                            lastname: { type: "string" }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    async (request, _reply) => {
+        request.log.info("GET /users/");
+        return [
+            {
+                firstname: "John",
+                lastname: "Doe"
+            },
+            {
+                firstname: "Alice",
+                lastname: "Doe"
+            }
+        ];
+    }
+);
 
-fastify.get("/users/:userId", async (request, _reply) => {
-    request.log.info({ params: request.params }, "GET /users/:userId");
-    return { hello: "world" };
-});
+fastify.get(
+    "/users/:userId/",
+    {
+        schema: {
+            response: {
+                200: {
+                    type: "object",
+                    properties: {
+                        firstname: { type: "string" },
+                        lastname: { type: "string" }
+                    }
+                }
+            }
+        }
+    },
+    async (request, _reply) => {
+        request.log.info({ params: request.params }, "GET /users/:userId");
+        return { 
+            firstname: "John",
+            lastname: "Doe"
+        };
+    }
+);
 
 fastify.post("/users/", async (request, _reply) => {
     request.log.info("POST /users/");

@@ -4,8 +4,8 @@ const fastify = Fastify({
     logger: true
 });
 
-fastify.get('/', async function handler(_request, _reply) {
-    return { hello: 'world' };
+fastify.get("/", (_request, _reply) => {
+    return { hello: "world" };
 });
 
 try {

@@ -2,7 +2,7 @@
 
 What has been implemented:
 
-- [ ] TypeScript support
+- [ ] TypeScript support (I still have a problem; for now I'm forced to add the `.js` suffix to all the imports)
 - [ ] Input / Output schema validation based en TypeScript types
 - [ ] Swagger support
 
@@ -23,11 +23,24 @@ In another terminal, execute:
 
 ```console
 $ xh -b http://localhost:3000/users/
-...
+[
+    {
+        "firstname": "John",
+        "lastname": "Doe"
+    },
+    {
+        "firstname": "Alice",
+        "lastname": "Doe"
+    }
+]
 ```
 
 ```console
 $ xh -b http://localhost:3000/users/1/
+{
+    "firstname": "Alice",
+    "lastname": "Doe"
+}
 ...
 ```
 

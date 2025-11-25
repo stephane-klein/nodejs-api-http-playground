@@ -1,5 +1,13 @@
 # Fastify API HTTP playground
 
+What has been implemented:
+
+- [x] TypeScript support
+- [x] Input / Output schema validation based en TypeScript types
+- [x] Swagger support
+
+## Getting started
+
 ```console
 $ mise install
 $ pnpm install

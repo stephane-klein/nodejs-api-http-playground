@@ -17,7 +17,7 @@ export class AppController {
         @Param("userId") userId: string
     ) {
         console.log("userId", userId);
-        return this.usersService.findAll();
+        return this.usersService.findOne(userId);
     }
 
     @Post()
@@ -29,7 +29,7 @@ export class AppController {
         return this.usersService.create(createUserDto);
     }
 
-    @Put()
+    @Put(":userId")
     update(
         @Param("userId") userId: string,
         @Body() updateUserDto: UpdateUserDto

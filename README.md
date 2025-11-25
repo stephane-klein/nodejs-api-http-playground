@@ -26,4 +26,4 @@ Frameworks I want to compare:
 I'm testing each framework in a subdirectory:
 
 - [`./fastify/`](./fastify/) (work in progress)
-- [`./nestjs/`](./nestjs/) (this playground has not started yet)
+- [`./nestjs/`](./nestjs/) (work in progress)

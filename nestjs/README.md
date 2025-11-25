@@ -31,6 +31,20 @@ $ xh -b http://localhost:3000/users/1/
 ...
 ```
 
+```console
+$ xh -b POST http://localhost:3000/users/ firstname=John lastname=Doe
+{
+    "firstname": "John",
+    "lastname": "Doe"
+}
+
+$ xh -b PUT http://localhost:3000/users/12/ firstname=John lastname=Doe
+{
+    "firstname": "John",
+    "lastname": "Doe"
+}
+```
+
 ## How I have created the project?
 
 ```

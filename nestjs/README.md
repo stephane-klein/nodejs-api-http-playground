@@ -19,6 +19,18 @@ $ pnpm start
 [Nest] 101454  - 25/11/2025 11:12:38     LOG [NestApplication] Nest application successfully started +1ms
 ```
 
+In another terminal, execute:
+
+```console
+$ xh -b http://localhost:3000/users/
+...
+```
+
+```console
+$ xh -b http://localhost:3000/users/1/
+...
+```
+
 ## How I have created the project?
 
 ```
